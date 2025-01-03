@@ -134,3 +134,55 @@ for a in np.linspace(0,0.013, 10):
 # #%%
 # str(0.01)
 # %%
+"""
+Check result
+"""
+for year in range(2014, 2023):
+    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_h_E/'
+    # year=2016
+    path_N='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_N.csv'
+    path_D='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_D.csv'
+    path='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/DSL_data/'+str(year)+'.txt'
+    data_age_N = pd.read_csv(path_N)
+    data_age_D = pd.read_csv(path_D)
+    data = pd.read_csv(path,sep='\t')
+    
+    age_list_49= ['0_9', '10_19', '20_29', '30_39', '40_49']
+    Total_N_49=np.sum(data_age_N[age_list_49].sum(axis=1))
+    N_age=0
+    for a in age_list_49:
+        N_age += np.sum(data_age_N[a])/Total_N_49*(int(a[0])*10+5)
+    
+    E_opt_list = []
+    for i in range(10):
+        a=np.linspace(0,0.013,10)[i]
+        h_opt = pd.read_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(i)+'.csv')
+        b=consideration_weight_b(a, data)
+        E_opt=E_consideratoin_weight(a,b,data,h_opt)
+        E_opt_list.append(E_opt)
+    
+    plt.scatter(np.linspace(0,0.013,10), E_opt_list)
+    plt.xlabel(r'$a$',size=20)
+    plt.ylabel(r'$E^\mathrm{opt}$',size=20)
+    plt.tight_layout()
+    plt.savefig(save_path+str(year)+'a_E.pdf',format='pdf',transparent=True)
+    plt.show()
+# %%
+save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_h_E/'
+# year=2016
+
+for year in range(2014, 2023):
+    path_N='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_N.csv'
+    path_D='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_D.csv'
+    path='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/DSL_data/'+str(year)+'.txt'
+    data_age_N = pd.read_csv(path_N)
+    data_age_D = pd.read_csv(path_D)
+    data = pd.read_csv(path,sep='\t')
+    
+    age_list_49= ['0_9', '10_19', '20_29', '30_39', '40_49']
+    Total_N_49=np.sum(data_age_N[age_list_49].sum(axis=1))
+    N_age=0
+    for a in age_list_49:
+        N_age += np.sum(data_age_N[a])/Total_N_49*(int(a[0])*10+5)
+    print(str(year), N_age)
+# %%
