@@ -6,8 +6,9 @@ import random
 import math
 plt.rcParams['mathtext.fontset'] = 'cm'
 plt.rcParams['font.family'] = 'Helvetica'
+import sys
 #%%
-year=2015
+year=int(sys.argv[1])#2014
 path_N='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_N.csv'
 path_D='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_D.csv'
 path='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/DSL_data/'+str(year)+'.txt'
@@ -68,7 +69,7 @@ def consideration_weight_b(a, data):
 
 def E_consideratoin_weight(a, b, data, h_opt):
     t_list = [N_age, 55, 65, 75, 85]
-    eta_i = h_opt/data['A']
+    eta_i = h_opt['h']/data['A']
     RNage_list_49= ['RN0_9', 'RN10_19', 'RN20_29', 'RN30_39', 'RN40_49']
     N_49 = data['N']* data[RNage_list_49].sum(axis=1)
     E,c=0,0
@@ -81,19 +82,55 @@ def E_consideratoin_weight(a, b, data, h_opt):
         c+=1
     return sum(E)
 
-# %%
-h_opt = data['h'].copy()
-a=0.013
-b=consideration_weight_b(a, data)
-print(b)
-print(E(data))
-print(E_consideratoin_weight(a,b,data,h_opt))
-# %%
-b=[]
-for a in np.linspace(0,0.02, 100):
-    b.append(consideration_weight_b(a, data))
 
 # %%
-plt.scatter(np.linspace(0,0.02, 100),b)
-plt.yscale('log')
+b=[]
+ai=0
+for a in np.linspace(0,0.013, 10):
+    dh = 0.01
+    h_opt = pd.DataFrame(data['h'].copy())
+    # a=0.013
+    b=consideration_weight_b(a, data)
+    index_list = list(data.index)
+    E_list=[]
+    Ei = E_consideratoin_weight(a,b,data,h_opt)
+    c=0
+    for i in range(100000):
+        E_list.append(Ei)
+        Rsigungu = random.sample(index_list, 2)
+        if h_opt.loc[Rsigungu[1], 'h'] <=0:pass
+        else:
+            h_opt.loc[Rsigungu[0], 'h'] += dh
+            h_opt.loc[Rsigungu[1], 'h'] -= dh
+            Ef = E_consideratoin_weight(a,b,data,h_opt)
+            if Ei <= Ef:
+                h_opt.loc[Rsigungu[0], 'h'] -= dh
+                h_opt.loc[Rsigungu[1], 'h'] += dh
+            else:
+                Ei=Ef
+                c+=1
+
+    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_h_E/'
+    E_list=np.array(E_list)
+    np.save(save_path+str(year)+'_age_E_a_'+str(ai)+'.npy',E_list,allow_pickle=True)
+    h_opt.to_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(ai)+'.csv',index=False)
+    ai+=1
+# #%%
+# plt.plot(E_list)
+# # %%
+# c
+# # %%
+# E_optimization()
+# # %%
+# E_list[-1]
+# # %%
+ 
+# plt.scatter(np.linspace(0,0.013, 10),b)
+# # plt.yscale('log')
+# plt.xlabel(r'$a$',size=20)
+# plt.ylabel(r'$b$',size=20)
+# plt.tight_layout()
+# plt.show()
+# #%%
+# str(0.01)
 # %%
