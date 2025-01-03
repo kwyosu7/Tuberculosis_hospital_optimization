@@ -7,7 +7,7 @@ import math
 plt.rcParams['mathtext.fontset'] = 'cm'
 plt.rcParams['font.family'] = 'Helvetica'
 #%%
-year=2014
+year=2015
 path_N='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_N.csv'
 path_D='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_D.csv'
 path='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/DSL_data/'+str(year)+'.txt'
@@ -26,7 +26,7 @@ N_age # the average age of 0~49 age
 Total_N_49
 
 # %%
-def E():
+def E(data):
     eta_i = data['h']/data['A']
     RNage_list_49= ['RN0_9', 'RN10_19', 'RN20_29', 'RN30_39', 'RN40_49']
     N_49 = data['N']* data[RNage_list_49].sum(axis=1)
@@ -50,12 +50,25 @@ def E_optimization():
         E+=N_it*phi_it
     return sum(E)
 
-def E_consideratoin_weight(a):
+def consideration_weight_b(a, data):
     E_0 = sum(data['D'])
-    a_list = [N_age, 55, 65, 75, 85]
-    
-
+    t_list = [N_age, 55, 65, 75, 85]
     eta_i = data['h']/data['A']
+    RNage_list_49= ['RN0_9', 'RN10_19', 'RN20_29', 'RN30_39', 'RN40_49']
+    N_49 = data['N']* data[RNage_list_49].sum(axis=1)
+    E_a,c=0,0
+    for t in ['0_49', '50_59', '60_69', '70_79', '80_']:
+        if t=='0_49': N_it=N_49
+        else: N_it=data['N']*data['RN'+t]
+        phi_it= np.exp(-eta_i/data['eta_tilde'+t])
+        # E=sumsum(at+b)(Nphi)
+        E_a+=(a*t_list[c]) * N_it*phi_it 
+        c+=1
+    return (E_0-sum(E_a))/(E_0) # b
+
+def E_consideratoin_weight(a, b, data, h_opt):
+    t_list = [N_age, 55, 65, 75, 85]
+    eta_i = h_opt/data['A']
     RNage_list_49= ['RN0_9', 'RN10_19', 'RN20_29', 'RN30_39', 'RN40_49']
     N_49 = data['N']* data[RNage_list_49].sum(axis=1)
     E,c=0,0
@@ -63,12 +76,24 @@ def E_consideratoin_weight(a):
         if t=='0_49': N_it=N_49
         else: N_it=data['N']*data['RN'+t]
         phi_it= np.exp(-eta_i/data['eta_tilde'+t])
-        E+=N_it*phi_it
-        
+        # E=sumsum(at+b)(Nphi)
+        E+=(a*t_list[c]+b)*N_it*phi_it 
         c+=1
-    b = (E_0-)/5
-
     return sum(E)
+
 # %%
-N_age
+h_opt = data['h'].copy()
+a=0.013
+b=consideration_weight_b(a, data)
+print(b)
+print(E(data))
+print(E_consideratoin_weight(a,b,data,h_opt))
+# %%
+b=[]
+for a in np.linspace(0,0.02, 100):
+    b.append(consideration_weight_b(a, data))
+
+# %%
+plt.scatter(np.linspace(0,0.02, 100),b)
+plt.yscale('log')
 # %%
