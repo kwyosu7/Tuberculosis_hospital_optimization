@@ -186,3 +186,4 @@ for year in range(2014, 2023):
         N_age += np.sum(data_age_N[a])/Total_N_49*(int(a[0])*10+5)
     print(str(year), N_age)
 # %%
+
