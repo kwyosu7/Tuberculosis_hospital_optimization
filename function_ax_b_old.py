@@ -110,7 +110,7 @@ for a in np.linspace(0,0.013, 10):
 """
 Check result
 """
-for year in range(2014, 2023):
+for year in range(2014, 2023)[:1]:
     save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_h_E/'
     # year=2016
     # path_N='/home/users/YongsungKwon/workplace/Yongpyter/dataset/tuberculosis/data/2023_rate_extract_DSL/'+str(year)+'_extract_N.csv'
@@ -127,7 +127,7 @@ for year in range(2014, 2023):
     #     N_age += np.sum(data_age_N[a])/Total_N_49*(int(a[0])*10+5)
     
     E_opt_list = []
-    for i in range(10):
+    for i in range(10)[:1]:
         a=np.linspace(0,0.013,10)[i]
         h_opt = pd.read_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(i)+'.csv',sep=',')
         # print(h_opt)
@@ -206,8 +206,11 @@ for t in ['40_49', '50_59', '60_69', '70_79', '80_']:
 sum(E)
 # %%
 b=consideration_weight_b(0, data)
-E_opt=E_consideratoin_weight(0,b,data,data)
+E_opt=E_consideratoin_weight(0,b,data,h_opt)
 E_opt
 # %%
+
 data
+# %%
+h_opt
 # %%
