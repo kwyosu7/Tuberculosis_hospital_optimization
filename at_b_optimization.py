@@ -46,14 +46,14 @@ Main
 
 ai=0
 dh = 0.01
-for a_ in np.linspace(0,0.013, 10):
+for a_ in np.linspace(0,0.033, 10):
     h_opt = pd.DataFrame(data['h'].copy())
     index_list = list(data.index)
     E_list=[]
     b_=b(data, a_)
     Ei = E(data,h_pd=h_opt,a=a_,b=b_)
     c=0
-    for i in range(50000):
+    for i in range(100000):
         E_list.append(Ei)
         Rsigungu = random.sample(index_list, 2)
         if h_opt.loc[Rsigungu[1], 'h'] <=0:pass
@@ -68,7 +68,7 @@ for a_ in np.linspace(0,0.013, 10):
                 Ei=Ef
                 c+=1
 
-    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h/'
+    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a033/'
     E_list=np.array(E_list)
     np.save(save_path+str(year)+'_age_E_a_'+str(ai)+'.npy',E_list,allow_pickle=True)
     h_opt.to_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(ai)+'.csv', index=False)

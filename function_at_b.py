@@ -93,7 +93,7 @@ data['h']
 """
 a=0
 """
-a_=0
+a_=0.02
 dh = 0.01
 h_opt_0 = pd.DataFrame(data['h'].copy())
 # b=consideration_weight_b(a, data)
@@ -130,4 +130,30 @@ E_list[-1]
 b_=b(data, 0.013)
 # %%
 b_
+# %%
+"""
+CHECK WHOLE data
+"""
+save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h/'
+
+for year in range(2014,2023):
+	path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
+	data = pd.read_csv(path,sep=',')
+	ai=0
+	E_list=[]
+	for i in range(10):
+		E_ = np.load(save_path+str(year)+'_age_E_a_'+str(ai)+'.npy')
+		E_list.append(E_[-1])
+		# h_opt = pd.read_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(ai)+'.csv')
+		# E_list.append(E(data, h_pd=h_opt))
+
+		ai+=1
+	plt.scatter(np.linspace(0,0.013,10), E_list)
+	plt.show()
+# %%
+plt.plot(range(50000), E)
+# %%
+a=0.033
+b_ = b(data, a)
+a*45+b_
 # %%
