@@ -41,7 +41,7 @@ Main
 """
 
 ai = int(sys.argv[1])#1~21 # ai=0
-a = np.linspace(-0.1, 0.05, 16)[ai]
+a = np.linspace(-0.15, 0.05, 21)[ai]
 dh = 0.01
 for year in range(2014,2023):
     path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
