@@ -19,9 +19,9 @@ for year in range(2014, 2023):
     RN = []
     D = []
     for t in ['40_49', '50_59', '60_69', '70_79', '80_']:
-        RN.append(np.mean(data['N']*data['RN'+t]))
+        # RN.append(np.mean(data['N']*data['RN'+t]))
         # RN.append(sum(data['N']*data['RN'+t]))
-        # D.append(np.mean(data['D']*data['RD'+t]))
+        D.append(np.mean(data['D']*data['RD'+t]))
     phi=[]
     
     # N_49 = data['N']* data[RNage_list_49].sum(axis=1)
@@ -39,10 +39,10 @@ for year in range(2014, 2023):
     gs = GridSpec(1, 2, figure=fig)
     # 첫 번째 서브플롯
     ax1 = fig.add_subplot(gs[0, 0])  # 첫 번째 열
-    ax1.plot(['40_49', '50_59', '60_69', '70_79', '80_'], RN, marker='o')  # 샘플 데이터
-    # ax1.plot(['40_49', '50_59', '60_69', '70_79', '80_'], D, marker='o')  # 샘플 데이터
-    ax1.set_ylabel(r'$\langle N\rangle_i$',size=20)
-    # ax1.set_ylabel(r'$\langle D\rangle_i$',size=20)
+    # ax1.plot(['40_49', '50_59', '60_69', '70_79', '80_'], RN, marker='o')  # 샘플 데이터
+    ax1.plot(['40_49', '50_59', '60_69', '70_79', '80_'], D, marker='o')  # 샘플 데이터
+    # ax1.set_ylabel(r'$\langle N\rangle_i$',size=20)
+    ax1.set_ylabel(r'$\langle D\rangle_i$',size=20)
     ax1.set_xlabel('age',size=20)
     # ax1.set_ylim(0, 41)
     # 두 번째 서브플롯

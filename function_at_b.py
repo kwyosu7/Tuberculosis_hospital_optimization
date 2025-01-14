@@ -127,15 +127,22 @@ E_list_0[-1]
 # %%
 E_list[-1]
 # %%
-b_=b(data, 0.013)
+a=0.03
+b_=b(data, a)
 # %%
 b_
 # %%
+45*a+b_
+#%%
+year
+#%%
 """
 CHECK WHOLE data
 """
 save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a033/'
-
+fig = plt.figure(figsize=(15, 9))
+gs = GridSpec(3, 3, figure=fig)
+c=0
 for year in range(2014,2023):
 	path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
 	data = pd.read_csv(path,sep=',')
@@ -148,12 +155,24 @@ for year in range(2014,2023):
 		# E_list.append(E(data, h_pd=h_opt))
 
 		ai+=1
-	plt.scatter(np.linspace(0,0.033,10), E_list)
-	plt.show()
+	ax = fig.add_subplot(gs[c//3, c%3])
+	ax.scatter(np.linspace(0,0.033,10), E_list, label=str(year))
+	ax.set_xlabel(r'$a$',size=20)
+	ax.set_ylabel(r'$E^\mathrm{opt}$',size=20)
+	ax.legend()
+	c+=1
+plt.tight_layout()
+plt.savefig('/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/figure/E_a.pdf',format='pdf',transparent=True)
+plt.show()
 # %%
 plt.plot(range(50000), E)
 # %%
-a=0.033
+a=0.03
 b_ = b(data, a)
 a*45+b_
+# %%
+a=-0.01
+b_ = b(data, a)
+# %%
+b_
 # %%
