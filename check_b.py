@@ -39,11 +39,11 @@ for year in range(2014,2023):
 	path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
 	data = pd.read_csv(path,sep=',')
 	b_list=[]
-	for a in np.linspace(-0.1,0.05, 20):
+	for a in np.linspace(-0.15,0.05, 21):
 		b_=b(data, a)
 		b_list.append(b_)
 		print('a: ',a, 'a45+b: ',45*a+b_, 'a85+b: ',85*a+b_)
-	plt.scatter(np.linspace(-0.1,0.05, 20), b_list)
+	plt.scatter(np.linspace(-0.15,0.05, 21), b_list)
 	plt.show()
 # %%
 a=0.03

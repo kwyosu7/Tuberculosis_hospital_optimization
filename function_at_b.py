@@ -139,7 +139,7 @@ year
 """
 CHECK WHOLE data
 """
-save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a033/'
+save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a01_005/'
 fig = plt.figure(figsize=(15, 9))
 gs = GridSpec(3, 3, figure=fig)
 c=0
@@ -148,7 +148,7 @@ for year in range(2014,2023):
 	data = pd.read_csv(path,sep=',')
 	ai=0
 	E_list=[]
-	for i in range(10):
+	for i in range(21):
 		E_ = np.load(save_path+str(year)+'_age_E_a_'+str(ai)+'.npy')
 		E_list.append(E_[-1])
 		# h_opt = pd.read_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(ai)+'.csv')
@@ -156,7 +156,7 @@ for year in range(2014,2023):
 
 		ai+=1
 	ax = fig.add_subplot(gs[c//3, c%3])
-	ax.scatter(np.linspace(0,0.033,10), E_list, label=str(year))
+	ax.scatter(np.linspace(-0.15,0.05,21), E_list, label=str(year))
 	ax.set_xlabel(r'$a$',size=20)
 	ax.set_ylabel(r'$E^\mathrm{opt}$',size=20)
 	ax.legend()
