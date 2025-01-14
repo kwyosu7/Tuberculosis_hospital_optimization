@@ -134,7 +134,7 @@ b_
 """
 CHECK WHOLE data
 """
-save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h/'
+save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a033/'
 
 for year in range(2014,2023):
 	path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
@@ -148,7 +148,7 @@ for year in range(2014,2023):
 		# E_list.append(E(data, h_pd=h_opt))
 
 		ai+=1
-	plt.scatter(np.linspace(0,0.013,10), E_list)
+	plt.scatter(np.linspace(0,0.033,10), E_list)
 	plt.show()
 # %%
 plt.plot(range(50000), E)

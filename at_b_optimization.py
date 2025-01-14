@@ -8,10 +8,6 @@ import sys
 Input
 """
 
-year = int(sys.argv[1])#2014
-path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
-data = pd.read_csv(path,sep=',')
-
 """
 DEF FUNCTION
 """
@@ -44,14 +40,17 @@ def b(data_, a):
 Main
 """
 
-ai=0
+ai = int(sys.argv[1])#1~21 # ai=0
+a = np.linspace(-0.1, 0.05, 16)[ai]
 dh = 0.01
-for a_ in np.linspace(0,0.033, 10):
+for year in range(2014,2023):
+    path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
+    data = pd.read_csv(path,sep=',')
     h_opt = pd.DataFrame(data['h'].copy())
     index_list = list(data.index)
     E_list=[]
-    b_=b(data, a_)
-    Ei = E(data,h_pd=h_opt,a=a_,b=b_)
+    b_=b(data, a)
+    Ei = E(data,h_pd=h_opt,a=a,b=b_)
     c=0
     for i in range(100000):
         E_list.append(Ei)
@@ -60,7 +59,7 @@ for a_ in np.linspace(0,0.033, 10):
         else:
             h_opt.loc[Rsigungu[0], 'h'] += dh
             h_opt.loc[Rsigungu[1], 'h'] -= dh
-            Ef = E(data,h_pd=h_opt,a=a_,b=b_)
+            Ef = E(data,h_pd=h_opt,a=a,b=b_)
             if Ei <= Ef:
                 h_opt.loc[Rsigungu[0], 'h'] -= dh
                 h_opt.loc[Rsigungu[1], 'h'] += dh
@@ -68,8 +67,8 @@ for a_ in np.linspace(0,0.033, 10):
                 Ei=Ef
                 c+=1
 
-    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a033/'
+    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a01_005/'
     E_list=np.array(E_list)
     np.save(save_path+str(year)+'_age_E_a_'+str(ai)+'.npy',E_list,allow_pickle=True)
     h_opt.to_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(ai)+'.csv', index=False)
-    ai+=1
+    
