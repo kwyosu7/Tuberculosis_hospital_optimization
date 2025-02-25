@@ -44,7 +44,7 @@ ai = int(sys.argv[1])#1~21 # ai=0
 a = np.linspace(-0.15, 0.05, 21)[ai]
 dh = 0.01
 for year in range(2014,2023):
-    path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/dataframe_40/'+str(year)+'_40.txt'
+    path = '/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/data_over40/'+str(year)+'_40.txt'
     data = pd.read_csv(path,sep=',')
     h_opt = pd.DataFrame(data['h'].copy())
     index_list = list(data.index)
