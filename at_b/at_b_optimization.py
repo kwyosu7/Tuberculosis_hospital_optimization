@@ -67,7 +67,7 @@ for year in range(2014,2023):
                 Ei=Ef
                 c+=1
 
-    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a01_005/'
+    save_path='/home/users/YongsungKwon/workplace/Yongpyter/Tuberculosis_hospital_optimization/data_result/at_b/opt_E_h_a015_005/'
     E_list=np.array(E_list)
     np.save(save_path+str(year)+'_age_E_a_'+str(ai)+'.npy',E_list,allow_pickle=True)
     h_opt.to_csv(save_path+str(year)+'MC_age_h_opt_a_'+str(ai)+'.csv', index=False)
