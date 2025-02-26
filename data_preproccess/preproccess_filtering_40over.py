@@ -38,8 +38,8 @@ for year in range(2014, 2023):
 	data = data[data['RD40_49'] != 0]
 	eta = data['h']/data['A']
 	for age in ['40_49', '50_59', '60_69', '70_79', '80_']:
-		N = data['N'] * data['RN40_49']
-		D = data['D'] * data['RD40_49']
+		N = data['N'] * data['RN'+age]
+		D = data['D'] * data['RD'+age]
 		phi = D/N
 		eta_tilde = eta/-np.log(phi)
 		data['eta_tilde'+age] = eta_tilde
