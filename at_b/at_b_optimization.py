@@ -55,7 +55,7 @@ for year in range(2014,2023):
     for i in range(100000):
         E_list.append(Ei)
         Rsigungu = random.sample(index_list, 2)
-        if h_opt.loc[Rsigungu[1], 'h'] <=0:pass
+        if h_opt.loc[Rsigungu[1], 'h'] - dh <0:pass
         else:
             h_opt.loc[Rsigungu[0], 'h'] += dh
             h_opt.loc[Rsigungu[1], 'h'] -= dh
